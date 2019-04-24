@@ -1,0 +1,169 @@
+{% extends '@MJMCTools/template/adminlte/base_layout.html.twig' %}
+
+{% block styles %}
+
+    {# bootstrap 3.3.7 #}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/mjmctools/asset/bootstrap/3.3.7/css/bootstrap.css') }}">
+
+    {# font-awesome 4.7.0 #}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/mjmctools/asset/font-awesome/4.7.0/css/font-awesome.min.css') }}">
+
+    {# adminlte 2.4.8 #}
+    <link rel="stylesheet" href="{{ asset('bundles/mjmctools/template/adminlte/2.4.8/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/mjmctools/template/adminlte/2.4.8/css/skins/all-skins.min.css') }}">
+
+    {# aninsition 4.0.2 #}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/mjmctools/asset/animsition/4.0.2/css/animsition.min.css') }}">
+
+    {# datatables 1.10.18 #}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/mjmctools/asset/datatables/1.10.18/css/datatables-bootstrap3-all.css') }}">
+
+    {# google fonts #}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/bootstrap-datepicker.min.css') }}">
+
+    {# custom #}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/app/css/calculator.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/custom.css') }}">
+
+{% endblock styles %}
+
+{% block scripts %}
+
+    {# jquery 3.3.1 #}
+    <script type="text/javascript" src="{{ asset('bundles/mjmctools/asset/jquery/3.3.1/js/jquery-3.3.1.min.js') }}"></script>
+
+    {# bootstrap 3.3.7 #}
+    <script type="text/javascript" src="{{ asset('bundles/mjmctools/asset/bootstrap/3.3.7/js/bootstrap.min.js') }}"></script>
+
+    {# adminlte 2.4.8 #}
+    <script type="text/javascript" src="{{ asset('bundles/mjmctools/template/adminlte/2.4.8/js/adminlte.min.js') }}"></script>
+
+    {# aninsition 4.0.2 #}
+    <script type="text/javascript" src="{{ asset('bundles/mjmctools/asset/animsition/4.0.2/js/animsition.min.js') }}"></script>
+
+    {# datatables 1.10.18 #}
+    <script type="text/javascript" src="{{ asset('bundles/mjmctools/asset/datatables/1.10.18/js/datatables-bootstrap3-all.min.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/mjmctools/asset/jquery-mask-money/3.1.1/js/jquery.maskMoney.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/mjmctools/asset/jquery-mask-plugin/1.14.15/js/jquery.mask.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+
+    {# custom #}
+    <script type="text/javascript" src="{{ asset('bundles/app/js/functions.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/app/js/calculator.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
+
+{% endblock scripts %}
+
+{% block flashes %}
+    <div class="content-header">
+        {% include '@App/base/flashes.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block header_logo %}
+
+    <span class="logo-mini">App</span>
+    <span class="logo-lg">CreditApp</span>
+
+{% endblock header_logo %}
+
+{% block header_widgets %}
+
+    <li class="dropdown user user-menu">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <img src="{{ asset(app.user.img|default('bundles/app/img/user.png')) }}" class="user-image" alt="User Image">
+            <span class="hidden-xs">{{ app.user.fullName|default }}</span>
+        </a>
+        <ul class="dropdown-menu">
+            <li class="user-header">
+                <img src="{{ asset(app.user.img|default('bundles/app/img/user.png')) }}" class="img-circle" alt="User Image">
+
+                <p>
+                    {{ app.user.fullName|default }}
+                    <small>Usuario desde el {{ app.user.createdAt|date('d/m/Y') }}</small>
+                </p>
+            </li>
+
+            <li class="user-footer">
+                <div class="pull-left">
+                    <a href="{{ path('user_profile') }}" class="btn btn-default btn-flat">Perfil</a>
+                </div>
+                <div class="pull-right">
+                    <a href="{{ path('fos_user_security_logout') }}" class="btn btn-default btn-flat">Salir</a>
+                </div>
+            </li>
+        </ul>
+    </li>
+
+{% endblock header_widgets %}
+
+
+{% block aside_widgets %}
+
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src="{{ asset(app.user.img|default('bundles/app/img/user.png')) }}" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{ app.user.fullName|default }}</p>
+            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+    </div>
+
+{% endblock aside_widgets %}
+
+{% block aside_nav %}
+    <ul id="nav-active" class="sidebar-menu" data-widget="tree" data-url="{{ app.request.pathinfo }}">
+        <li class="header">MENÚ</li>
+        <li><a href="{{ path('homepage') }}"><i class="fa fa-home"></i> <span>Inicio</span></a></li>
+        <li><a href="{{ path('credit') }}"><i class="fa fa-id-card"></i> <span>Creditos</span></a></li>
+        <li><a href="{{ path('payment') }}"><i class="fa fa-credit-card"></i> <span>Pagos</span></a></li>
+        <li><a href="{{ path('client') }}"><i class="fa fa-users"></i> <span>Clientes</span></a></li>
+        <li><a href="{{ path('product') }}"><i class="fa fa-cubes"></i> <span>Productos</span></a></li>
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <li><a href="{{ path('under_construction', { section: 'report' }) }}"><i class="fa fa-area-chart"></i> <span>Reportes</span></a></li>
+            <li><a href="{{ path('user') }}"><i class="fa fa-user-plus"></i> <span>Usuarios</span></a></li>
+            <li class="treeview">
+                <a href="#"><i class="fa fa-history"></i> <span>Historiales</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ path('access_history') }}"><i class="fa fa-circle-o"></i>Historial de Accesos</a></li>
+                    <li><a href="{{ path('operations_history') }}"><i class="fa fa-circle-o"></i>Historial de Operaciones</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#"><i class="fa fa fa-cogs"></i> <span>Ajustes</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ path('settings_company_profile') }}"><i class="fa fa-circle-o"></i>Perfil de la Compañia</a></li>
+                </ul>
+            </li>
+        {% endif %}
+
+        <li><a href="#" class="calculator-trigger"><i class="fa fa-calculator"></i> <span>Calculadora</span></a></li>
+        <li class="treeview">
+            <a href="#"><i class="fa fa fa-info-circle"></i> <span>Ayuda</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+            <ul class="treeview-menu">
+                <li><a href="{{ path('under_construction', { section: 'faq' }) }}"><i class="fa fa-circle-o"></i>Pregustas Frecuentes</a></li>
+                <li><a href="{{ path('under_construction', { section: 'manual' }) }}"><i class="fa fa-circle-o"></i>Manual de Usuario</a></li>
+                <li><a href="{{ path('under_construction', { section: 'about' }) }}"><i class="fa fa-circle-o"></i>Acerca de</a></li>
+                <li><a href="{{ path('under_construction', { section: 'support' }) }}"><i class="fa fa-circle-o"></i>Soporte</a></li>
+            </ul>
+        </li>
+    </ul>
+{% endblock aside_nav %}
+
+{% block footer_container %}
+        <div class="pull-right hidden-xs">
+            Desarrolado por Miguel, Jharol, Carlos.
+        </div>
+        <strong>Copyright &copy; 2019 Abasto Mi Angelito.C.A.</strong> Todos los derechos reservados.
+{% endblock footer_container %}
+
+{% block hidden %}
+
+    {% include '@App/base/calculator.html.twig' %}
+
+{% endblock %}

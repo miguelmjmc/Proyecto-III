@@ -33,3 +33,18 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+
+    AppBundle\EventListener\LoginListener:
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+              - { name: kernel.event_subscriber }
+
+    AppBundle\EventListener\HistoryListener:
+            arguments: ['@security.token_storage']
+            tags:
+                  - { name: doctrine.event_subscriber, connection: default }
+
+    form_status:
+            class: AppBundle\Form\UserType
+            arguments:  ['@security.token_storage']
+            tags: [form.type]

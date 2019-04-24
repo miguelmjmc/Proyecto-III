@@ -1,0 +1,150 @@
+.file-input {
+    display: none !important;
+}
+
+.file-button label {
+    max-width: 80%;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+    color: #ffffff !important;
+    background-color: #3C8DBC;
+}
+
+.file-button .fa {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: -0.25em;
+    margin-right: 0.25em;
+}
+
+.file-button label:focus,
+.file-button.has-focus {
+    outline: 1px dotted #000;
+}
+
+.file-button label:focus,
+.file-button label.has-focus,
+.file-button label:hover {
+    background-color: #357CA5;
+}
+
+.loader {
+    display: none;
+    margin: 50px auto;
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.float-right {
+    float: right;
+}
+
+td a .fa {
+    color: darkgrey;
+    margin: 5px;
+}
+
+.img-container {
+    text-align: center;
+}
+
+.img {
+    width: 80%;
+    max-width: 500px;
+    padding: 30px 0;
+}
+
+textarea {
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 200px;
+    min-height: 100px;
+}
+
+.canvas {
+    width: 100% !important;
+    height: 250px;
+    min-height: 250px !important;
+}
+
+.canvas-container {
+    max-height: 400px;
+    padding: 20px;
+}
+
+.widget-user-username, .widget-user-desc {
+    font-weight: 600 !important;
+}
+
+.summary {
+    height: 70px !important;
+}
+
+.float-right-content div, .content-btn-add, #date-filter {
+    padding-bottom: 10px;
+}
+
+#date-filter .control-label {
+    font-weight: normal;
+}
+
+#date-filter :last-child .form-group {
+    float: right;
+}
+
+.modal-content {
+    max-width: 550px;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 6px;
+    -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+    box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+}
+
+.dataTables_info {
+    white-space: normal !important;
+}
+
+.user-footer .fa {
+    padding-right: 10px;
+}
+
+#date-filter input, .datepicker, .date, .deadline {
+    background: #ffffff !important;
+}
+
+td span {
+    margin: 0 5px;
+}
+
+.progress {
+    background: lightgray;
+}
+
+:disabled {
+    cursor: default !important;
+}
+
+.small-box .icon {
+    top: 10px;
+}

@@ -1,0 +1,48 @@
+{% extends '@FOSUser/layout.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block content %}
+    <h2 class="text-center">Abasto Mi Angelito.C.A</h2>
+    <form action="{{ path("fos_user_security_check") }}" method="post" id="login-form">
+        {% if csrf_token %}
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+        {% endif %}
+
+        <div id="u" class="form-group">
+            <input type="text" id="username" name="_username" value="" spellcheck=false class="form-control"
+                   size="18" alt="login" autocomplete="off" required="required">
+            <span class="form-highlight"></span>
+            <span class="form-bar"></span>
+            <label for="username" class="float-label">{{ 'security.login.username'|trans }}</label>
+            <erroru>
+                <i>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24h-24z" fill="none"/>
+                        <path d="M1 21h22l-11-19-11 19zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                    </svg>
+                </i>
+            </erroru>
+        </div>
+        <div id="p" class="form-group">
+            <input type="password" id="password" name="_password" class="form-control" spellcheck=false size="18"
+                   alt="login" autocomplete="off" required="required">
+            <span class="form-highlight"></span>
+            <span class="form-bar"></span>
+            <label for="password" class="float-label">{{ 'security.login.password'|trans }}</label>
+            <errorp>
+                <i>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24h-24z" fill="none"/>
+                        <path d="M1 21h22l-11-19-11 19zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                    </svg>
+                </i>
+            </errorp>
+        </div>
+        <div class="form-group">
+            <a class="forgotten-password under-construction" href="{{ path('fos_user_resetting_request') }}">¿Olvidastes la contraseña?</a>
+            <button type="submit" id="_submit" name="_submit"
+                    ripple>{{ 'security.login.submit'|trans }}</button>
+        </div>
+    </form>
+{% endblock content %}

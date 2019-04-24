@@ -1,0 +1,32 @@
+Name: Nombre
+Last name: Apellido
+Ci: Cédula
+Address: Dirección
+Email: Email
+Phone: Teléfono
+Comment: Observaciones
+Rif: Rif
+File: Imagen
+Date: Fecha
+Amount: Monto
+Description: Descripción
+Select: Seleccione...
+Roles: Rol
+Rol: Rol
+Admin: Administrador
+User: Operador
+Enabled: Habilitado
+Disabled: Desabilitado
+Status: Estado
+Deadline: Plazo
+Unit: Unidad
+kilogram: Kilogramo
+Gram: Gramo
+Liter: Litro
+Mililiter: Mililitro
+Default measurement unit: 'Unidad de medida por defecto'
+Measurement unit: 'Unidad de medida'
+Product brand: Marca
+Product category: Categoría
+Username: Usuario
+Plain password: Contraseña
