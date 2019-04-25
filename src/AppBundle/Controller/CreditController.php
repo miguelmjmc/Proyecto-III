@@ -34,6 +34,7 @@ class CreditController extends Controller
             'data' => array(),
             'columns' => array(
                 array('title' => 'Fecha'),
+                array('title' => 'Código'),
                 array('title' => 'Cliente'),
                 array('title' => 'Estado'),
                 array('title' => 'Monto'),
@@ -47,17 +48,19 @@ class CreditController extends Controller
 
             $parameters = array(
                 'suffix' => 'credito',
-                'actions' => array('show'),
+                'actions' => array('show', 'manage'),
                 'path' => $this->generateUrl('credit_modal', array('id' => $credit->getId())),
+                'managePath' => $this->generateUrl('client_credit_manage', array('id' => $credit->getClient()->getId(), 'credit_id' => $credit->getId())),
             );
 
             $btn = $this->renderView('@App/base/table_btn.html.twig', $parameters);
 
             $data['data'][] = array(
                 $credit->getDate()->format('Y/m/d'),
-                $credit->getClient()->getFullName().'(CI: '.$credit->getClient()->getCi().')',
+                $credit->getCode(),
+                $credit->getClient()->getFullName().' (CI: '.$credit->getClient()->getCi().')',
                 $credit->getStatus(),
-                'Bs. '.number_format($credit->getAmount(), 2),
+                $credit->getAmountUnit(),
                 $credit->getProgress(),
                 $btn,
             );

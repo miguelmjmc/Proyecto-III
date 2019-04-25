@@ -116,6 +116,7 @@ $(document).ready(function () {
             type: $(this).data('method'),
             success: function (data) {
                 $('#modal-default').empty().append(data).modal('show');
+                datatableModal();
             }
         });
     });
@@ -147,6 +148,7 @@ $(document).ready(function () {
                         location.reload();
                     } else {
                         $('#modal-default').empty().append(data);
+                        datatableModal();
                     }
                 }
             });
@@ -163,6 +165,7 @@ $(document).ready(function () {
                         location.reload();
                     } else {
                         $('#modal-default').empty().append(data);
+                        datatableModal();
                     }
                 }
             });
@@ -334,3 +337,11 @@ $(document).ready(function () {
         });
     });
 });
+
+function datatableModal() {
+    $('.datatable-modal').DataTable({
+        language: lang,
+        responsive: true,
+        ajax: $('.datatable-modal').data('src')
+    });
+}

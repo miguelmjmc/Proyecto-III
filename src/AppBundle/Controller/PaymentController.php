@@ -24,7 +24,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * @Route("/list/payment", name="payment_list")
+     * @Route("/list", name="payment_list")
      */
     public function paymentListAction()
     {
@@ -34,7 +34,9 @@ class PaymentController extends Controller
             'data' => array(),
             'columns' => array(
                 array('title' => 'Fecha'),
+                array('title' => 'Código'),
                 array('title' => 'Cliente'),
+                array('title' => 'Credito'),
                 array('title' => 'Monto'),
                 array('title' => 'Acciones'),
             )
@@ -45,16 +47,19 @@ class PaymentController extends Controller
 
             $parameters = array(
                 'suffix' => 'pago',
-                'actions' => array('show'),
+                'actions' => array('show', 'manage'),
                 'path' => $this->generateUrl('payment_modal', array('id' => $payment->getId())),
+                'managePath' => $this->generateUrl('client_credit_manage', array('id' => $payment->getCredit()->getClient()->getId(), 'credit_id' => $payment->getCredit()->getId())),
             );
 
             $btn = $this->renderView('@App/base/table_btn.html.twig', $parameters);
 
             $data['data'][] = array(
                 $payment->getDate()->format('Y/m/d'),
+                $payment->getCode(),
                 $payment->getCredit()->getClient()->getFullName().' (CI: '.$payment->getCredit()->getClient()->getCi().')',
-                'Bs. '.number_format($payment->getAmount(), 2),
+                $payment->getCredit()->getCode(),
+                $payment->getAmountUnit(),
                 $btn,
             );
         }
@@ -69,7 +74,7 @@ class PaymentController extends Controller
      *
      * @return Response
      *
-     * @Route("/modal/payment/{id}}", name="payment_modal", defaults={"id": "null"})
+     * @Route("/modal/{id}}", name="payment_modal", defaults={"id": "null"})
      */
     public function paymentModalAction(Request $request, Payment $payment = null, $id = null)
     {

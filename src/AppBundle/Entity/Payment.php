@@ -66,6 +66,14 @@ class Payment
     private $credit;
 
 
+    public function getCode() {
+        return 'PG_'.str_pad($this->getId(), 5, '0', STR_PAD_LEFT);
+    }
+
+    public function getAmountUnit() {
+        return number_format($this->getAmount(), 2).' Bs.';
+    }
+
     /**
      * Get id
      *

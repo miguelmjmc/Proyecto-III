@@ -92,6 +92,10 @@ class Credit
         $this->payment = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    public function getCode() {
+        return 'CRD_'.str_pad($this->getId(), 5, '0', STR_PAD_LEFT);
+    }
+
     public function getAmount(){
         $total = 0;
 
@@ -100,7 +104,11 @@ class Credit
             $total += $item->getTotalAmount();
         }
 
-        return $total;
+        return number_format($total, 2);
+    }
+
+    public function getAmountUnit(){
+        return $this->getAmount().' Bs.';
     }
 
     public function getTotalPaid(){

@@ -50,6 +50,10 @@ $(document).ready(function () {
         $(this).mask('(0000) 000-0000');
     });
 
+    $(document).on('click', '.money', function () {
+        $(this).maskMoney();
+    });
+
     $('.btn-new').appendTo('.add-btn-container');
 
     $(".alert").fadeTo(2000, 500).slideUp(500, function(){

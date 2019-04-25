@@ -40,16 +40,6 @@ class Product
     private $name;
 
     /**
-     * @var int
-     *
-     * @Assert\NotBlank
-     * @Assert\Range(min=1, max=5)
-     *
-     * @ORM\Column(name="default_measurement_unit", type="integer")
-     */
-    private $defaultMeasurementUnit;
-
-    /**
      * @var ProductBrand
      *
      * @Assert\NotBlank
@@ -81,6 +71,14 @@ class Product
     public function __construct()
     {
         $this->creditProduct = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function getCode() {
+        return 'PRD_'.str_pad($this->getId(), 5, '0', STR_PAD_LEFT);
+    }
+
+    public function getFullProductName() {
+        return $this->getCode().': '.$this->name.'  ('.$this->getProductBrand()->getName().')';
     }
 
     /**
@@ -115,30 +113,6 @@ class Product
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set defaultMeasurementUnit
-     *
-     * @param integer $defaultMeasurementUnit
-     *
-     * @return Product
-     */
-    public function setDefaultMeasurementUnit($defaultMeasurementUnit)
-    {
-        $this->defaultMeasurementUnit = $defaultMeasurementUnit;
-
-        return $this;
-    }
-
-    /**
-     * Get defaultMeasurementUnit
-     *
-     * @return integer
-     */
-    public function getDefaultMeasurementUnit()
-    {
-        return $this->defaultMeasurementUnit;
     }
 
     /**

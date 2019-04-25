@@ -32,7 +32,7 @@ class ProductController extends Controller
     /**
      * @return Response
      *
-     * @Route("/list/product", name="product_list")
+     * @Route("/list", name="product_list")
      */
     public function productListAction()
     {
@@ -41,6 +41,7 @@ class ProductController extends Controller
         $data = array(
             'data' => array(),
             'columns' => array(
+                array('title' => 'Código'),
                 array('title' => 'Nombre'),
                 array('title' => 'Marca',),
                 array('title' => 'Categoría'),
@@ -60,6 +61,7 @@ class ProductController extends Controller
             $btn = $this->renderView('@App/base/table_btn.html.twig', $parameters);
 
             $data['data'][] = array(
+                $product->getCode(),
                 $product->getName(),
                 $product->getProductBrand()->getName(),
                 $product->getProductCategory()->getName(),
@@ -73,7 +75,7 @@ class ProductController extends Controller
     /**
      * @return Response
      *
-     * @Route("/list/brand", name="brand_list")
+     * @Route("/brand/list", name="brand_list")
      */
     public function brandListAction()
     {
@@ -111,7 +113,7 @@ class ProductController extends Controller
     /**
      * @return Response
      *
-     * @Route("/list/category", name="category_list")
+     * @Route("/category/list", name="category_list")
      */
     public function categoryListAction()
     {
@@ -153,7 +155,7 @@ class ProductController extends Controller
      *
      * @return Response
      *
-     * @Route("/modal/product/{id}}", name="product_modal", defaults={"id": "null"})
+     * @Route("/modal/{id}}", name="product_modal", defaults={"id": "null"})
      */
     public function productModalAction(Request $request, Product $product = null, $id = null)
     {
@@ -211,7 +213,7 @@ class ProductController extends Controller
      *
      * @return Response
      *
-     * @Route("/modal/brand/{id}}", name="brand_modal", defaults={"id": "null"})
+     * @Route("/brand/modal/{id}}", name="brand_modal", defaults={"id": "null"})
      */
     public function brandModalAction(Request $request, ProductBrand $brand = null, $id = null)
     {
@@ -270,7 +272,7 @@ class ProductController extends Controller
      *
      * @return Response
      *
-     * @Route("/modal/category/{id}}", name="category_modal", defaults={"id": "null"})
+     * @Route("category/modal/{id}}", name="category_modal", defaults={"id": "null"})
      */
     public function categoryModalAction(Request $request, ProductCategory $category = null, $id = null)
     {

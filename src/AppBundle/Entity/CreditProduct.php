@@ -73,10 +73,65 @@ class CreditProduct
     private $credit;
 
 
+    public function getQuantityUnit() {
+        $unit = '';
+
+        switch ($this->getMeasurementUnit()) {
+            case 1:
+                if (1 === $this->getQuantity()) {
+                    $unit = '<span title="Unidad">unidad</span>';
+                } else {
+                    $unit = '<span title="Unidades">unidades</span>';
+                }
+                break;
+            case 2:
+                $unit = '<span title="Kilogramo">kg</span>';
+                break;
+            case 3:
+                $unit = '<span title="Gramo">g</span>';
+                break;
+            case 4:
+                $unit = '<span title="Litro">l</span>';
+                break;
+            case 5:
+                $unit = '<span title="Mililitro">ml</span>';
+                break;
+        }
+        return $this->getQuantity().' '.$unit;
+    }
+
+    public function getAmountUnit() {
+        $unit = '';
+
+        switch ($this->getMeasurementUnit()) {
+            case 1:
+                $unit = '<span title="Unidad">unidad</span>';
+                break;
+            case 2:
+                $unit = '<span title="Kilogramo">kg</span>';
+                break;
+            case 3:
+                $unit = '<span title="Kilogramo">kg</span>';
+                break;
+            case 4:
+                $unit = '<span title="Litro">l</span>';
+                break;
+            case 5:
+                $unit = '<span title="Litro">l</span>';
+                break;
+        }
+        return $this->getAmount().' <span title="Bolivares">Bs.</span>/'.$unit;
+    }
+
+    public function getTotalAmountUnit(){
+
+        return $this->getTotalAmount().' Bs.';
+    }
+
     public function getTotalAmount(){
         $total = $this->getAmount() * MeasurementUnit::resolve($this->quantity, $this->measurementUnit);
 
-        return $total;
+        return number_format($total, 2);
     }
 
     /**

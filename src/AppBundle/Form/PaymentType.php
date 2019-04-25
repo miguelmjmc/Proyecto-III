@@ -16,7 +16,7 @@ class PaymentType extends AbstractType
     {
         $builder
             ->add('date', DateType::class, array('widget' => 'single_text'))
-            ->add('amount')
+            ->add('amount', null, array('grouping' => true, 'scale' => 2, 'attr' => array('class' => 'money')))
             ->add('comment')
         ;
     }
