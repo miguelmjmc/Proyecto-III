@@ -40,10 +40,6 @@ class Credit
     /**
      * @var \DateTime
      *
-     * @Assert\NotBlank
-     * @Assert\Date
-     * @Assert\Range(min="2000-01-01", max="2050-01-01")
-     *
      * @ORM\Column(name="deadline", type="date")
      */
     private $deadline;
@@ -69,9 +65,7 @@ class Credit
     /**
      * @var CreditProduct
      *
-     * @Assert\Count(min=1, max=100)
-     *
-     * @ORM\OneToMany(targetEntity="CreditProduct", mappedBy="credit")
+     * @ORM\OneToMany(targetEntity="CreditProduct", mappedBy="credit", cascade={"all"})
      */
     private $creditProduct;
 
@@ -104,11 +98,11 @@ class Credit
             $total += $item->getTotalAmount();
         }
 
-        return number_format($total, 2);
+        return $total;
     }
 
     public function getAmountUnit(){
-        return $this->getAmount().' Bs.';
+        return number_format($this->getAmount(), 2).' Bs.';
     }
 
     public function getTotalPaid(){
@@ -120,6 +114,26 @@ class Credit
         }
 
         return $total;
+    }
+
+    public function getTotalToPay(){
+
+        return $this->getAmount() - $this->getTotalPaid();
+    }
+
+    public function getTotalToPayExcludeId($id = null){
+        $total = 0;
+
+        /** @var Payment $item */
+        foreach ($this->payment as $item){
+            if ($item->getId() === $id) {
+                continue;
+            }
+
+            $total += $item->getAmount();
+        }
+
+        return $this->getAmount() - $total;
     }
 
     public function isDelayedPayment(){
@@ -159,12 +173,15 @@ class Credit
     public function getStatus()
     {
         $status = '';
-        $amount =  $this->getAmount();
+        $amount = $this->getAmount();
         $totalPaid = $this->getTotalPaid();
         $expired = $this->isDelayedPayment();
 
-        if ($totalPaid > $amount) {
-            $status = '<span class="label label-danger" title="El monto pagado es superior al acreditado">Error</span>';
+        if (0 === $this->getCreditProduct()->count() && 0 === $this->getPayment()->count()) {
+            $status = '<span class="label label-warning" title="Credito sin asignar productos">Incompleto</span>';
+
+        } elseif ($totalPaid > $amount) {
+            $status = '<span class="label label-danger" title="El monto pagado es superior al monto acreditado">Error</span>';
         } elseif ($totalPaid == $amount) {
             $status = '<span class="label label-success" title="Credito pagado">Pagado</span>';
             if ($expired) {
@@ -183,7 +200,11 @@ class Credit
 
     public function getProgress()
     {
-        $percentage = ($this->getTotalPaid() * 100) / $this->getAmount();
+        $percentage = 0;
+
+        if (0 < $this->getAmount()) {
+            $percentage = ($this->getTotalPaid() * 100) / $this->getAmount();
+        }
 
         $progress = '<div class="progress" title="Pagado: '.number_format($this->getTotalPaid(), 2).' Bs / '.number_format($this->getAmount(), 2).' Bs">
                 <div class="progress-bar progress-bar-green" role="progressbar" aria-valuenow="'.$percentage.'" aria-valuemin="0" aria-valuemax="100" style="width: '.$percentage.'%">

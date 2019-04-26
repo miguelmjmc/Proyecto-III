@@ -3,11 +3,9 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Payment;
-use AppBundle\Form\PaymentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -32,6 +30,7 @@ class PaymentController extends Controller
 
         $data = array(
             'data' => array(),
+            'order' => array(0, 'DESC'),
             'columns' => array(
                 array('title' => 'Fecha'),
                 array('title' => 'Código'),
@@ -47,8 +46,8 @@ class PaymentController extends Controller
 
             $parameters = array(
                 'suffix' => 'pago',
-                'actions' => array('show', 'manage'),
-                'path' => $this->generateUrl('payment_modal', array('id' => $payment->getId())),
+                'actions' => array('show', 'edit', 'delete', 'manage'),
+                'path' => $this->generateUrl('client_credit_payment_modal', array('id' => $payment->getCredit()->getClient()->getId(), 'credit_id' => $payment->getCredit()->getId(), 'payment_id' => $payment->getId())),
                 'managePath' => $this->generateUrl('client_credit_manage', array('id' => $payment->getCredit()->getClient()->getId(), 'credit_id' => $payment->getCredit()->getId())),
             );
 
@@ -65,54 +64,5 @@ class PaymentController extends Controller
         }
 
         return new JsonResponse($data);
-    }
-
-    /**
-     * @param Request $request
-     * @param Payment $payment
-     * @param int $id
-     *
-     * @return Response
-     *
-     * @Route("/modal/{id}}", name="payment_modal", defaults={"id": "null"})
-     */
-    public function paymentModalAction(Request $request, Payment $payment = null, $id = null)
-    {
-        $parameters = array('method' => $request->getMethod());
-
-        if ('GET' === $request->getMethod() || 'DELETE' === $request->getMethod()) {
-            $parameters['attr'] = array('readonly' => true);
-        }
-
-        $form = $this->createForm(PaymentType::class, $payment, $parameters);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
-            if ('DELETE' === $request->getMethod()) {
-                $em->remove($form->getData());
-            }
-
-            if ('POST' === $request->getMethod()) {
-                $em->persist($form->getData());
-            }
-
-            $em->flush();
-
-            $this->addFlash('success', 'Exito! Operación realizada satisfactoriamente');
-
-            return new Response('success');
-        }
-
-        $parameters = array(
-            'form' => $form->createView(),
-            'suffix' => 'pago',
-            'action' => $this->generateUrl('payment_modal', array('id' => $id)),
-            'method' => $request->getMethod(),
-        );
-
-        return $this->render('@App/base/modal.html.twig', $parameters);
     }
 }

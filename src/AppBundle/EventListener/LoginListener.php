@@ -34,8 +34,6 @@ class LoginListener implements EventSubscriberInterface
         /** @var User $user */
         $user = $event->getAuthenticationToken()->getUser();
 
-
-
         $history = new AccessHistory();
         $history->setDate(new \DateTime())
             ->setIp($request->getClientIp())

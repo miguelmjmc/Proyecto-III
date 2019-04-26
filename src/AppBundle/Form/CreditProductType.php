@@ -16,10 +16,10 @@ class CreditProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('product', null, array('choice_label' => 'fullProductName', 'placeholder' => 'Select'))
-            ->add('measurementUnit', ChoiceType::class, array('choices' => MeasurementUnit::units(), 'placeholder' => 'Select'))
+            ->add('product', null, array('choice_label' => 'fullProductName', 'placeholder' => 'Select', 'attr' => array('class' => 'selectpicker', 'data-live-search' => "true")))
+            ->add('measurementUnit', ChoiceType::class, array('choices' => MeasurementUnit::units()))
             ->add('amount', null, array('grouping' => true, 'scale' => 2, 'attr' => array('class' => 'money')))
-            ->add('quantity', null, array('grouping' => true, 'scale' => 2, 'attr' => array('class' => 'money')))
+            ->add('quantity', null, array('grouping' => true, 'scale' => 2, 'attr' => array('class' => 'number')))
         ;
     }
 

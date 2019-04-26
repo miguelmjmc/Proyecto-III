@@ -6,6 +6,7 @@ use AppBundle\Utils\LogTrait;
 use AppBundle\Utils\MeasurementUnit;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * CreditProduct
@@ -73,6 +74,19 @@ class CreditProduct
     private $credit;
 
 
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        if ($this->getCredit()->getAmount() < $this->getCredit()->getTotalPaid()) {
+            $context
+                ->buildViolation('La sumatoriria del costo total de los productos no puede ser menor al monto total pagado.')
+                ->addViolation()
+            ;
+        }
+    }
+
     public function getQuantityUnit() {
         $unit = '';
 
@@ -125,13 +139,13 @@ class CreditProduct
 
     public function getTotalAmountUnit(){
 
-        return $this->getTotalAmount().' Bs.';
+        return number_format($this->getTotalAmount(), 2).' Bs.';
     }
 
     public function getTotalAmount(){
         $total = $this->getAmount() * MeasurementUnit::resolve($this->quantity, $this->measurementUnit);
 
-        return number_format($total, 2);
+        return $total;
     }
 
     /**

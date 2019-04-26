@@ -3,6 +3,7 @@
 namespace AppBundle\EventListener;
 
 use AppBundle\Entity\OperationHistory;
+use AppBundle\Entity\User;
 use AppBundle\Utils\HistoryResolver;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
@@ -34,48 +35,60 @@ class HistoryListener implements EventSubscriber
         $em = $args->getEntityManager();
         $uow = $em->getUnitOfWork();
 
-        foreach ($uow->getScheduledEntityInsertions() as $keyEntity => $entity) {
-            if (HistoryResolver::encodeTargetEntity(get_class($entity))) {
-                $history = new OperationHistory();
+        if ($this->tokenStorage->getToken()) {
+            foreach ($uow->getScheduledEntityInsertions() as $keyEntity => $entity) {
+                if (HistoryResolver::encodeTargetEntity(get_class($entity))) {
+                    $history = new OperationHistory();
 
-                $history->setDate(new \DateTime())
-                    ->setUser($this->tokenStorage->getToken()->getUser())
-                    ->setTargetEntity(HistoryResolver::encodeTargetEntity(get_class($entity)))
-                    ->setOperationType(1);
+                    $history->setDate(new \DateTime())
+                        ->setUser($this->tokenStorage->getToken()->getUser())
+                        ->setTargetEntity(HistoryResolver::encodeTargetEntity(get_class($entity)))
+                        ->setOperationType(1);
 
-                $em->persist($history);
-                $classMetadata = $em->getClassMetadata(OperationHistory::class);
-                $uow->computeChangeSet($classMetadata, $history);
+                    $em->persist($history);
+                    $classMetadata = $em->getClassMetadata(OperationHistory::class);
+                    $uow->computeChangeSet($classMetadata, $history);
+                }
             }
-        }
 
-        foreach ($uow->getScheduledEntityUpdates() as $keyEntity => $entity) {
-            if (HistoryResolver::encodeTargetEntity(get_class($entity))) {
-                $history = new OperationHistory();
+            foreach ($uow->getScheduledEntityUpdates() as $keyEntity => $entity) {
+                if (HistoryResolver::encodeTargetEntity(get_class($entity))) {
+                    $history = new OperationHistory();
 
-                $history->setDate(new \DateTime())
-                    ->setUser($this->tokenStorage->getToken()->getUser())
-                    ->setTargetEntity(HistoryResolver::encodeTargetEntity(get_class($entity)))
-                    ->setOperationType(2);
+                    if ($entity instanceof User) {
+                        $uow->getEntityChangeSet($entity);
 
-                $em->persist($history);
-                $classMetadata = $em->getClassMetadata(OperationHistory::class);
-                $uow->computeChangeSet($classMetadata, $history);
+                        $changes = $uow->getEntityChangeSet($entity);
+
+                        if (array_key_exists('lastLogin', $changes) || array_key_exists('confirmationToken', $changes) || array_key_exists('passwordRequestedAt', $changes)) {
+                            continue;
+                        }
+                    }
+
+                    $history->setDate(new \DateTime())
+                        ->setUser($this->tokenStorage->getToken()->getUser())
+                        ->setTargetEntity(HistoryResolver::encodeTargetEntity(get_class($entity)))
+                        ->setOperationType(2);
+
+                    $em->persist($history);
+                    $classMetadata = $em->getClassMetadata(OperationHistory::class);
+                    $uow->computeChangeSet($classMetadata, $history);
+                }
             }
-        }
 
-        foreach ($uow->getScheduledEntityDeletions() as $keyEntity => $entity) {
-            if (HistoryResolver::encodeTargetEntity(get_class($entity))) {
-                $history = new OperationHistory();
+            foreach ($uow->getScheduledEntityDeletions() as $keyEntity => $entity) {
+                if (HistoryResolver::encodeTargetEntity(get_class($entity))) {
+                    $history = new OperationHistory();
 
-                $history->setDate(new \DateTime())
-                    ->setUser($this->tokenStorage->getToken()->getUser())
-                    ->setTargetEntity(HistoryResolver::encodeTargetEntity(get_class($entity)))
-                    ->setOperationType(3);
+                    $history->setDate(new \DateTime())
+                        ->setUser($this->tokenStorage->getToken()->getUser())
+                        ->setTargetEntity(HistoryResolver::encodeTargetEntity(get_class($entity)))
+                        ->setOperationType(3);
 
-                $em->persist($history);
-                $classMetadata = $em->getClassMetadata(OperationHistory::class);
-                $uow->computeChangeSet($classMetadata, $history);
+                    $em->persist($history);
+                    $classMetadata = $em->getClassMetadata(OperationHistory::class);
+                    $uow->computeChangeSet($classMetadata, $history);
+                }
             }
         }
     }

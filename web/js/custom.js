@@ -22,7 +22,7 @@ $(document).ready(function () {
         alert('Esta caracteristica se encuentra en construcción. Disculpe las molestias.');
     });
 
-    $(document).on('click', '.rif', function () {
+    $(document).on('focus', '.rif', function () {
         $(this).mask('A-00000000-0', {
             translation: {
                 'A': {pattern: /[vepgjc]/i},
@@ -34,7 +34,7 @@ $(document).ready(function () {
         });
     });
 
-    $(document).on('click', '.ci', function () {
+    $(document).on('focus', '.ci', function () {
         $(this).mask('A-00000000', {
             translation: {
                 'A': {pattern: /[ve]/i},
@@ -46,13 +46,18 @@ $(document).ready(function () {
         });
     });
 
-    $(document).on('click', '.phone', function () {
+    $(document).on('focus', '.phone', function () {
         $(this).mask('(0000) 000-0000');
     });
 
-    $(document).on('click', '.money', function () {
+    $(document).on('focus', '.money', function () {
         $(this).maskMoney();
     });
+
+    $(document).on('focus', '.number', function () {
+        $(this).autoNumeric();
+    });
+
 
     $('.btn-new').appendTo('.add-btn-container');
 
@@ -60,11 +65,14 @@ $(document).ready(function () {
         $(".alert").slideUp(500);
     });
 
-    $('.datepicker').datepicker({
-        format: 'yyyy/mm/dd',
-        language: 'es',
-        autoclose: true,
-        todayHighlight: true
-    });
+    $('.selectpicker').selectpicker();
 
+    $(document).on('focus', 'form:not([readonly]) .datepicker', function () {
+        $(this).datepicker({
+            format: 'yyyy/mm/dd',
+            language: 'es',
+            autoclose: true,
+            todayHighlight: true
+        });
+    });
 });

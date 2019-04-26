@@ -3,11 +3,9 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Credit;
-use AppBundle\Form\CreditType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -32,6 +30,7 @@ class CreditController extends Controller
 
         $data = array(
             'data' => array(),
+            'order' => array(0, 'DESC'),
             'columns' => array(
                 array('title' => 'Fecha'),
                 array('title' => 'Código'),
@@ -47,7 +46,7 @@ class CreditController extends Controller
         foreach ($credits as $credit) {
 
             $parameters = array(
-                'suffix' => 'credito',
+                'suffix' => 'crédito',
                 'actions' => array('show', 'manage'),
                 'path' => $this->generateUrl('credit_modal', array('id' => $credit->getId())),
                 'managePath' => $this->generateUrl('client_credit_manage', array('id' => $credit->getClient()->getId(), 'credit_id' => $credit->getId())),
@@ -67,63 +66,5 @@ class CreditController extends Controller
         }
 
         return new JsonResponse($data);
-    }
-
-    /**
-     * @param Request $request
-     * @param Credit $credit
-     * @param int $id
-     *
-     * @return Response
-     *
-     * @Route("/modal/credit/{id}}", name="credit_modal", defaults={"id": "null"})
-     */
-    public function creditModalAction(Request $request, Credit $credit = null, $id = null)
-    {
-        $parameters = array('method' => $request->getMethod());
-
-        if ('GET' === $request->getMethod() || 'DELETE' === $request->getMethod()) {
-            $parameters['attr'] = array('readonly' => true);
-        }
-
-        $form = $this->createForm(CreditType::class, $credit, $parameters);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
-            if ('DELETE' === $request->getMethod()) {
-                if (0 !== count($credit->getPayment())) {
-                    $this->addFlash(
-                        'danger',
-                        'Oops! No se ha podido eliminar el credito porque existen pagos asociados al registro. Por favor elimine primero los pagos.'
-                    );
-
-                    return new Response('success');
-                }
-
-                $em->remove($form->getData());
-            }
-
-            if ('POST' === $request->getMethod()) {
-                $em->persist($form->getData());
-            }
-
-            $em->flush();
-
-            $this->addFlash('success', 'Exito! Operación realizada satisfactoriamente');
-
-            return new Response('success');
-        }
-
-        $parameters = array(
-            'form' => $form->createView(),
-            'suffix' => 'credito',
-            'action' => $this->generateUrl('credit_modal', array('id' => $id)),
-            'method' => $request->getMethod(),
-        );
-
-        return $this->render('@App/base/modal.html.twig', $parameters);
     }
 }

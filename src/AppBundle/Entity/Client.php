@@ -152,7 +152,7 @@ class Client
         }
 
         if (0 !== $issues) {
-            $status .= '<span class="label label-warning" title="Se ha registrado '.$issues.' insidencias en mora"><i class="fa fa-warning"></i></span>';
+            $status .= '<span class="label label-warning" title="Se han registrado insidencias"><i class="fa fa-warning"></i></span>';
         }
 
         return $status;

@@ -101,6 +101,10 @@ $(document).ready(function () {
         e.preventDefault();
     });
 
+    $(document).on('mousedown', 'disabled', function (e) {
+        e.preventDefault();
+    });
+
     //================================================================================
     //================================================================================
     // Call modal
@@ -117,6 +121,8 @@ $(document).ready(function () {
             success: function (data) {
                 $('#modal-default').empty().append(data).modal('show');
                 datatableModal();
+                $('select[readonly]').attr('disabled',true);
+                $('.selectpicker').selectpicker();
             }
         });
     });
@@ -146,9 +152,13 @@ $(document).ready(function () {
                 success: function (data) {
                     if ('success' === data) {
                         location.reload();
+                    } else if (data.includes('/manage/credit/')) {
+                        window.location.replace(data);
                     } else {
                         $('#modal-default').empty().append(data);
                         datatableModal();
+                        $('select[readonly]').attr('disabled',true);
+                        $('.selectpicker').selectpicker();
                     }
                 }
             });
@@ -163,16 +173,19 @@ $(document).ready(function () {
                 success: function (data) {
                     if ('success' === data) {
                         location.reload();
+                    } else if (data.includes('/manage/credit/')) {
+                        window.location.replace(data);
                     } else {
                         $('#modal-default').empty().append(data);
                         datatableModal();
+                        $('select[readonly]').attr('disabled',true);
+                        $('.selectpicker').selectpicker();
                     }
                 }
             });
         }
     });
 });
-
 
 var lang = {
     sProcessing: 'Procesando...',

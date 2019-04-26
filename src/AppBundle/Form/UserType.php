@@ -12,7 +12,6 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
@@ -130,7 +129,6 @@ class UserType extends AbstractType
                         PasswordType::class,
                         array(
                             'constraints' => array(
-                                new NotBlank(),
                                 new Length(array('min' => 8, 'max' => 20)),
                                 new Regex(
                                     array(

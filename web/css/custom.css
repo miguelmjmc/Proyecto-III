@@ -148,3 +148,20 @@ td span {
 .small-box .icon {
     top: 10px;
 }
+
+.bootstrap-select .btn-default {
+    border: 1px solid #cccccc;
+}
+
+.bootstrap-select .btn-default, .bootstrap-select .btn-default:hover, .bootstrap-select .btn-default:active, .bootstrap-select .btn-default:focus {
+    background: #FFFFFF !important;
+}
+
+.bootstrap-select .disabled, .bootstrap-select .disabled:hover, .bootstrap-select .disabled:active, .bootstrap-select .disabled:focus {
+    background: #EEEEEE !important;
+}
+
+form[readonly] input[readonly="readonly"] {
+    background: #EEEEEE !important;
+    border: 1px solid #cccccc;
+}

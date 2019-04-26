@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use AppBundle\Utils\LogTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Payment
@@ -65,6 +66,39 @@ class Payment
      */
     private $credit;
 
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        if ($this->getDate() && $this->getCredit()->getDate() > $this->getDate()) {
+            $context
+                ->buildViolation('La fecha del pago no puede ser menor a la fecha del credito.')
+                ->atPath('date')
+                ->addViolation()
+            ;
+
+            $context
+                ->buildViolation('Fecha minima del pago: '.$this->getCredit()->getDate()->format('Y/m/d'))
+                ->atPath('date')
+                ->addViolation()
+            ;
+        }
+
+        if ($this->credit->getTotalToPayExcludeId($this->getId()) < $this->getAmount()) {
+            $context
+                ->buildViolation('La sumatoria de los pagos no puede ser mayor al monto del credito.')
+                ->atPath('amount')
+                ->addViolation()
+            ;
+            $context
+                ->buildViolation('Monto máximo del pago: '.number_format($this->getCredit()->getTotalToPayExcludeId($this->id), 2).' Bs.')
+                ->atPath('amount')
+                ->addViolation()
+            ;
+        }
+    }
 
     public function getCode() {
         return 'PG_'.str_pad($this->getId(), 5, '0', STR_PAD_LEFT);
