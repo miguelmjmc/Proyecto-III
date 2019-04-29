@@ -49,7 +49,7 @@ class HistoryController extends Controller
         /** @var AccessHistory $accessHistory */
         foreach ($accessHistories as $accessHistory) {
             $data['data'][] = array(
-                $accessHistory->getDate()->format('Y/m/d h:i:s'),
+                $accessHistory->getDate()->format('Y/m/d H:i:s'),
                 $accessHistory->getUser()->getUsername(),
                 $accessHistory->getIp(),
             );
@@ -79,7 +79,7 @@ class HistoryController extends Controller
         /** @var OperationHistory $operationHistory */
         foreach ($operationHistories as $operationHistory) {
             $data['data'][] = array(
-                $operationHistory->getDate()->format('Y/m/d h:i:s'),
+                $operationHistory->getDate()->format('Y/m/d H:i:s'),
                 $operationHistory->getUser()->getUsername(),
                 $operationHistory->getDecodedOperationType(),
                 $operationHistory->getDecodedTargetEntity(),

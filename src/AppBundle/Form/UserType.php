@@ -87,12 +87,6 @@ class UserType extends AbstractType
                                     'message' => 'Este valor debería tener 1 número o más.',
                                 )
                             ),
-                            new Regex(
-                                array(
-                                    'pattern' => '/^(?=.*[!@#\$%\^&\*])/',
-                                    'message' => 'Este valor debería tener 1 caracter especial o más.',
-                                )
-                            ),
                         ),
                     )
                 );
@@ -146,12 +140,6 @@ class UserType extends AbstractType
                                     array(
                                         'pattern' => '/^(?=.*[0-9])/',
                                         'message' => 'Este valor debería tener 1 número o más.',
-                                    )
-                                ),
-                                new Regex(
-                                    array(
-                                        'pattern' => '/^(?=.*[!@#\$%\^&\*])/',
-                                        'message' => 'Este valor debería tener 1 caracter especial o más.',
                                     )
                                 ),
                             ),

@@ -134,7 +134,7 @@ class CreditProduct
                 $unit = '<span title="Litro">l</span>';
                 break;
         }
-        return $this->getAmount().' <span title="Bolivares">Bs.</span>/'.$unit;
+        return number_format($this->getAmount(), 2).' <span title="Bolivares">Bs.</span>/'.$unit;
     }
 
     public function getTotalAmountUnit(){

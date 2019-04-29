@@ -178,7 +178,7 @@ class Credit
         $expired = $this->isDelayedPayment();
 
         if (0 === $this->getCreditProduct()->count() && 0 === $this->getPayment()->count()) {
-            $status = '<span class="label label-warning" title="Credito sin asignar productos">Incompleto</span>';
+            $status = '<span class="label label-info" title="Credito sin asignar productos">En registro</span>';
 
         } elseif ($totalPaid > $amount) {
             $status = '<span class="label label-danger" title="El monto pagado es superior al monto acreditado">Error</span>';

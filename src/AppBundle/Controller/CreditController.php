@@ -47,8 +47,8 @@ class CreditController extends Controller
 
             $parameters = array(
                 'suffix' => 'crédito',
-                'actions' => array('show', 'manage'),
-                'path' => $this->generateUrl('credit_modal', array('id' => $credit->getId())),
+                'actions' => array('show', 'edit', 'delete', 'manage'),
+                'path' => $this->generateUrl('client_manage_modal', array('id' => $credit->getClient()->getId(), 'credit_id' => $credit->getId())),
                 'managePath' => $this->generateUrl('client_credit_manage', array('id' => $credit->getClient()->getId(), 'credit_id' => $credit->getId())),
             );
 

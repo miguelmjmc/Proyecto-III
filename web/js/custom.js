@@ -35,9 +35,8 @@ $(document).ready(function () {
     });
 
     $(document).on('focus', '.ci', function () {
-        $(this).mask('A-00000000', {
+        $(this).mask('V-00000000', {
             translation: {
-                'A': {pattern: /[ve]/i},
                 '0': {pattern: /[0-9]/}
             }
             ,onKeyPress: function (value, event) {

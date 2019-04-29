@@ -152,7 +152,7 @@ $(document).ready(function () {
                 success: function (data) {
                     if ('success' === data) {
                         location.reload();
-                    } else if (data.includes('/manage/credit/')) {
+                    } else if (!data.includes('input') && data.includes('/manage/credit/')) {
                         window.location.replace(data);
                     } else {
                         $('#modal-default').empty().append(data);
@@ -173,7 +173,7 @@ $(document).ready(function () {
                 success: function (data) {
                     if ('success' === data) {
                         location.reload();
-                    } else if (data.includes('/manage/credit/')) {
+                    } else if (!data.includes('input') && data.includes('/manage/credit/')) {
                         window.location.replace(data);
                     } else {
                         $('#modal-default').empty().append(data);

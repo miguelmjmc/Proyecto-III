@@ -1,5 +1,7 @@
 {% extends '@MJMCTools/template/adminlte/base_layout.html.twig' %}
 
+{% block head_title %}CreditApp{% endblock head_title %}
+
 {% block styles %}
 
     {# bootstrap 3.3.7 #}
@@ -102,21 +104,6 @@
     </li>
 
 {% endblock header_widgets %}
-
-
-{% block aside_widgets %}
-
-    <div class="user-panel">
-        <div class="pull-left image">
-            <img src="{{ asset(app.user.img|default('bundles/app/img/user.png')) }}" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-            <p>{{ app.user.fullName|default }}</p>
-            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-        </div>
-    </div>
-
-{% endblock aside_widgets %}
 
 {% block aside_nav %}
     <ul id="nav-active" class="sidebar-menu" data-widget="tree" data-url="{{ app.request.pathinfo }}">
