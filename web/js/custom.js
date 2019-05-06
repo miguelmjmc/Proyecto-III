@@ -1,3 +1,29 @@
+function getLineChartConfig(data) {
+    return {
+        type: 'line',
+        data: data,
+        options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            tooltips: {
+                mode: 'index',
+                intersect: false
+            }
+        }
+    };
+}
+
+function getDoughnutChartConfig(data) {
+    return {
+        type: 'doughnut',
+        data: data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    }
+}
+
 $(document).ready(function () {
 
     var url = $('#nav-active').data('url');
@@ -74,4 +100,5 @@ $(document).ready(function () {
             todayHighlight: true
         });
     });
+
 });

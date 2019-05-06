@@ -91,9 +91,6 @@ function dateFilter(settings, json, dateColumn) {
     });
 }
 
-var sumoselectConfig = {
-    placeholder: 'Seleccione...'
-};
 
 $(document).ready(function () {
 
@@ -157,7 +154,7 @@ $(document).ready(function () {
                     } else {
                         $('#modal-default').empty().append(data);
                         datatableModal();
-                        $('select[readonly]').attr('disabled',true);
+                        $('select[readonly]').attr('disabled', true);
                         $('.selectpicker').selectpicker();
                     }
                 }
@@ -178,7 +175,7 @@ $(document).ready(function () {
                     } else {
                         $('#modal-default').empty().append(data);
                         datatableModal();
-                        $('select[readonly]').attr('disabled',true);
+                        $('select[readonly]').attr('disabled', true);
                         $('.selectpicker').selectpicker();
                     }
                 }

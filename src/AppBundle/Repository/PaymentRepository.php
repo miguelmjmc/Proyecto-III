@@ -10,4 +10,23 @@ namespace AppBundle\Repository;
  */
 class PaymentRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getDataChart1()
+    {
+        $db = $this
+            ->createQueryBuilder('p')
+            ->select('p.date, COUNT(p.date) as total, COUNT(DISTINCT p.credit) as client')
+            ->groupBy('p.date');
+
+        return $db->getQuery()->getResult();
+    }
+
+    public function getDataChart2()
+    {
+        $db = $this
+            ->createQueryBuilder('p')
+            ->select('p.date, SUM(p.amount) as total')
+            ->groupBy('p.date');
+
+        return $db->getQuery()->getResult();
+    }
 }

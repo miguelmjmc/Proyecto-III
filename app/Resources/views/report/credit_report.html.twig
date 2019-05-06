@@ -1,0 +1,179 @@
+{% extends '@App/base/layout.html.twig' %}
+
+{% block main_title %}Reportes de Creditos{% endblock main_title %}
+
+{% block main_breadcrumb %}
+    <li><a href="{{ path('homepage') }}"><i class="fa fa-home"></i> Inicio</a></li>
+    <li class="active"><a href="{{ path('credit_report') }}"><i class="fa fa-area-chart"></i> Reportes de Creditos</a>
+    </li>
+{% endblock %}
+
+{% block main_container %}
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>{{ totalCredits|default }}</h3>
+                    <p>Creditos Concedidos</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-info"></i>
+                </div>
+                <a href="#" class="small-box-footer"></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>{{ paidCredits|default }}</h3>
+                    <p>Creditos Pagados</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-check"></i>
+                </div>
+                <a href="#" class="small-box-footer"></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>{{ pendingCredits|default }}</h3>
+                    <p>Creditos Pendientes</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-warning"></i>
+                </div>
+                <a href="#" class="small-box-footer"></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>{{ expiredCredits|default }}</h3>
+                    <p>Creditos Vencidos</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-close"></i>
+                </div>
+                <a href="#" class="small-box-footer"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-area-chart"></i> Estadisticas</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs pull-right">
+                            <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Estado crediticio</a></li>
+                            <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Volumen crediticio</a>
+                            </li>
+                            <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">Creditos
+                                    concedidos</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_1">
+                                <canvas id="canvas1" class="canvas"></canvas>
+                            </div>
+                            <div class="tab-pane" id="tab_2">
+                                <canvas id="canvas2" class="canvas"></canvas>
+
+                            </div>
+                            <div class="tab-pane" id="tab_3">
+                                <canvas id="canvas3" class="canvas"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script>
+
+        var data1 = {
+            labels: [
+                {% for row in dataChart1 %}'{{ row.date|date('Y/m/d') }}',{% endfor %}
+            ],
+            datasets: [
+                {
+                    label: 'Creditos Concedidos',
+                    backgroundColor: '#36A2EB',
+                    borderColor: '#36A2EB',
+                    data: [
+                        {% for row in dataChart1 %}'{{ row.total }}',{% endfor %}
+                    ],
+                    fill: false
+                },
+                {
+                    label: 'Cantidad de clientes',
+                    backgroundColor: '#4BC0C0',
+                    borderColor: '#4BC0C0',
+                    data: [
+                        {% for row in dataChart1 %}'{{ row.client }}',{% endfor %}
+                    ],
+                    fill: false
+                }
+            ]
+        };
+
+        var data2 = {
+            labels: [
+                {% for row in dataChart2 %}'{{ row.date|date('Y/m/d') }}',{% endfor %}
+            ],
+            datasets: [
+                {
+                    label: 'Volumen crediticio (BS)',
+
+                    backgroundColor: '#36A2EB',
+                    borderColor: '#36A2EB',
+                    data: [
+                        {% for row in dataChart2 %}({{ row.total }}).toString(),{% endfor %}
+                    ],
+                    fill: false
+                }
+            ]
+        };
+
+        var data3 = {
+            datasets: [{
+                data: [
+                    {{ paidCredits }},
+                    {{ pendingCredits }},
+                    {{ expiredCredits }}
+                ],
+                backgroundColor: [
+                    '#4BC0C0',
+                    '#FFCD56',
+                    '#FF6384'
+                ]
+            }],
+            labels: [
+                'Creditos pagados',
+                'Creditos pendientes',
+                'Creditos vencidos'
+            ]
+        };
+
+        $(document).ready(function () {
+            new Chart($('#canvas1'), getLineChartConfig(data1));
+
+            new Chart($('#canvas2'), getLineChartConfig(data2));
+
+            new Chart($('#canvas3'), getDoughnutChartConfig(data3));
+        });
+
+    </script>
+{% endblock %}

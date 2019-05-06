@@ -86,46 +86,52 @@ class Credit
         $this->payment = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public function getCode() {
+    public function getCode()
+    {
         return 'CRD_'.str_pad($this->getId(), 5, '0', STR_PAD_LEFT);
     }
 
-    public function getAmount(){
+    public function getAmount()
+    {
         $total = 0;
 
         /** @var CreditProduct $item */
-        foreach ($this->creditProduct as $item){
+        foreach ($this->creditProduct as $item) {
             $total += $item->getTotalAmount();
         }
 
         return $total;
     }
 
-    public function getAmountUnit(){
+    public function getAmountUnit()
+    {
         return number_format($this->getAmount(), 2).' Bs.';
     }
 
-    public function getTotalPaid(){
+    public function getTotalPaid()
+    {
         $total = 0;
 
         /** @var Payment $item */
-        foreach ($this->payment as $item){
+        foreach ($this->payment as $item) {
             $total += $item->getAmount();
         }
 
         return $total;
     }
 
-    public function getTotalToPay(){
+    public function getTotalToPay()
+    {
 
         return $this->getAmount() - $this->getTotalPaid();
     }
 
-    public function getTotalToPayExcludeId($id = null){
+    public function getTotalToPayExcludeId($id = null)
+    {
         $total = 0;
 
         /** @var Payment $item */
-        foreach ($this->payment as $item){
+        foreach ($this->payment as $item) {
             if ($item->getId() === $id) {
                 continue;
             }
@@ -136,7 +142,8 @@ class Credit
         return $this->getAmount() - $total;
     }
 
-    public function isDelayedPayment(){
+    public function isDelayedPayment()
+    {
         /** @var Payment $payment */
         foreach ($this->payment as $payment) {
             if ($payment->getDate() > $this->deadline) {
@@ -196,6 +203,23 @@ class Credit
         }
 
         return $status;
+    }
+
+    public function getStatusCode()
+    {
+        $amount = $this->getAmount();
+        $totalPaid = $this->getTotalPaid();
+        $expired = $this->isDelayedPayment();
+
+        if ($totalPaid == $amount) {
+            return 1;
+        }
+
+        if ($expired || new \DateTime() > $this->deadline) {
+            return 3;
+        }
+
+        return 2;
     }
 
     public function getProgress()

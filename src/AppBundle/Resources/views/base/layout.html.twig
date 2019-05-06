@@ -25,6 +25,7 @@
 
     <link type="text/css" rel="stylesheet" href="{{ asset('css/bootstrap-datepicker.min.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ asset('css/bootstrap-select.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/Chart.min.css') }}">
 
     {# custom #}
     <link type="text/css" rel="stylesheet" href="{{ asset('bundles/app/css/calculator.css') }}">
@@ -54,6 +55,7 @@
     <script type="text/javascript" src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/autoNumeric-1.9.41.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/Chart.bundle.min.js') }}"></script>
 
     {# custom #}
     <script type="text/javascript" src="{{ asset('bundles/app/js/functions.js') }}"></script>
@@ -115,7 +117,13 @@
         <li><a href="{{ path('product') }}"><i class="fa fa-cubes"></i> <span>Productos</span></a></li>
 
         {% if is_granted('ROLE_ADMIN') %}
-            <li><a href="{{ path('under_construction', { section: 'report' }) }}"><i class="fa fa-area-chart"></i> <span>Reportes</span></a></li>
+            <li class="treeview">
+                <a href="#"><i class="fa fa-area-chart"></i> <span>Reportes</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ path('credit_report') }}"><i class="fa fa-circle-o"></i>Creditos</a></li>
+                    <li><a href="{{ path('payment_report') }}"><i class="fa fa-circle-o"></i>Pagos</a></li>
+                </ul>
+            </li>
             <li><a href="{{ path('user') }}"><i class="fa fa-user-plus"></i> <span>Usuarios</span></a></li>
             <li class="treeview">
                 <a href="#"><i class="fa fa-history"></i> <span>Historiales</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
