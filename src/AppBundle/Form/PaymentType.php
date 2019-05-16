@@ -17,6 +17,7 @@ class PaymentType extends AbstractType
         $builder
             ->add('date', DateType::class, array('widget' => 'single_text', 'html5' => false, 'format' => 'yyyy/MM/dd', 'attr' => array('class' => 'datepicker', 'readonly' => true)))
             ->add('amount', null, array('grouping' => true, 'scale' => 2, 'attr' => array('class' => 'money')))
+            ->add('paymentMethod', null, array('choice_label' => 'name', 'placeholder' => 'Select'))
             ->add('comment')
         ;
     }

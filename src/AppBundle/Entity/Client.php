@@ -90,6 +90,16 @@ class Client
     /**
      * @var string
      *
+     * @Assert\NotBlank
+     * @Assert\Range(min=0.01, max=99999999.99)
+     *
+     * @ORM\Column(name="creditLimit", type="decimal", precision=10, scale=2)
+     */
+    private $creditLimit;
+
+    /**
+     * @var string
+     *
      * @Assert\Length(min=0, max=500)
      *
      * @ORM\Column(name="comment", type="text", nullable=true)
@@ -313,6 +323,30 @@ class Client
     }
 
     /**
+     * Set creditLimit
+     *
+     * @param string $creditLimit
+     *
+     * @return Client
+     */
+    public function setCreditLimit($creditLimit)
+    {
+        $this->creditLimit = $creditLimit;
+
+        return $this;
+    }
+
+    /**
+     * Get creditLimit
+     *
+     * @return string
+     */
+    public function getCreditLimit()
+    {
+        return $this->creditLimit;
+    }
+
+    /**
      * Set comment
      *
      * @param string $comment
@@ -334,6 +368,20 @@ class Client
     public function getComment()
     {
         return $this->comment;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Client
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     /**

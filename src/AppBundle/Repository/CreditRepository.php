@@ -33,7 +33,7 @@ class CreditRepository extends \Doctrine\ORM\EntityRepository
     {
         $db = $this
             ->createQueryBuilder('c')
-            ->select('c.date, CASE  cp.measurementUnit WHEN 3 THEN SUM(cp.amount * (cp.quantity / 1000))  ELSE SUM(cp.amount * cp.quantity) END as total')
+            ->select('c.date, SUM(CASE  cp.measurementUnit WHEN 3 THEN (cp.amount * (cp.quantity / 1000)) ELSE (cp.amount * cp.quantity) END) as total')
             ->innerJoin('c.creditProduct', 'cp')
             ->groupBy('c.date');
 

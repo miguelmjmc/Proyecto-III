@@ -18,6 +18,7 @@ class ClientType extends AbstractType
             ->add('ci', null, array('attr' => array('class' => 'ci')))
             ->add('name')
             ->add('lastName')
+            ->add('creditLimit', null, array('grouping' => true, 'scale' => 2, 'attr' => array('class' => 'money')))
             ->add('email')
             ->add('phone', null, array('attr' => array('class' => 'phone')))
             ->add('address', TextareaType::class)

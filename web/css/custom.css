@@ -165,3 +165,7 @@ form[readonly] input[readonly="readonly"] {
     background: #EEEEEE !important;
     border: 1px solid #cccccc;
 }
+
+.blue {
+    background-color: #008ED8 !important;
+}

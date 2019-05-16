@@ -66,6 +66,15 @@ class Payment
      */
     private $credit;
 
+    /**
+     * @var PaymentMethod
+     *
+     * @Assert\NotBlank
+     *
+     * @ORM\ManyToOne(targetEntity="PaymentMethod", inversedBy="payment")
+     */
+    private $paymentMethod;
+
 
     /**
      * @Assert\Callback
@@ -191,6 +200,20 @@ class Payment
     }
 
     /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Payment
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
      * Set credit
      *
      * @param \AppBundle\Entity\Credit $credit
@@ -212,5 +235,29 @@ class Payment
     public function getCredit()
     {
         return $this->credit;
+    }
+
+    /**
+     * Set paymentMethod
+     *
+     * @param \AppBundle\Entity\PaymentMethod $paymentMethod
+     *
+     * @return Payment
+     */
+    public function setPaymentMethod(\AppBundle\Entity\PaymentMethod $paymentMethod = null)
+    {
+        $this->paymentMethod = $paymentMethod;
+
+        return $this;
+    }
+
+    /**
+     * Get paymentMethod
+     *
+     * @return \AppBundle\Entity\PaymentMethod
+     */
+    public function getPaymentMethod()
+    {
+        return $this->paymentMethod;
     }
 }

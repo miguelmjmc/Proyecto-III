@@ -19,10 +19,8 @@ class ReportController extends Controller
      */
     public function creditAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
         /** @var CreditRepository $repository */
-        $repository = $em->getRepository(Credit::class);
+        $repository = $this->getDoctrine()->getRepository(Credit::class);
 
         $credits = $repository->findAll();
 

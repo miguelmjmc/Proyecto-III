@@ -118,7 +118,7 @@ $(document).ready(function () {
             success: function (data) {
                 $('#modal-default').empty().append(data).modal('show');
                 datatableModal();
-                $('select[readonly]').attr('disabled',true);
+                $('.modal-container select[readonly]').attr('disabled', true);
                 $('.selectpicker').selectpicker();
             }
         });
@@ -138,6 +138,8 @@ $(document).ready(function () {
         $('#ajax-submit').prop('disabled', true);
         $('.modal-container').hide();
         $('.loader').show();
+
+        $('.modal-container select[readonly]').attr('disabled', false);
 
         var form = $(this).parents('form');
 

@@ -1,65 +1,14 @@
 {% extends '@App/base/layout.html.twig' %}
 
-{% block main_title %}Reportes de Creditos{% endblock main_title %}
+{% block main_title %}Reportes de Créditos{% endblock main_title %}
 
 {% block main_breadcrumb %}
     <li><a href="{{ path('homepage') }}"><i class="fa fa-home"></i> Inicio</a></li>
-    <li class="active"><a href="{{ path('credit_report') }}"><i class="fa fa-area-chart"></i> Reportes de Creditos</a>
+    <li class="active"><a href="{{ path('credit_report') }}"><i class="fa fa-area-chart"></i> Reportes de Créditos</a>
     </li>
 {% endblock %}
 
 {% block main_container %}
-    <div class="row">
-        <div class="col-lg-3 col-xs-6">
-            <div class="small-box bg-aqua">
-                <div class="inner">
-                    <h3>{{ totalCredits|default }}</h3>
-                    <p>Creditos Concedidos</p>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-info"></i>
-                </div>
-                <a href="#" class="small-box-footer"></a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-xs-6">
-            <div class="small-box bg-green">
-                <div class="inner">
-                    <h3>{{ paidCredits|default }}</h3>
-                    <p>Creditos Pagados</p>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-check"></i>
-                </div>
-                <a href="#" class="small-box-footer"></a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-xs-6">
-            <div class="small-box bg-yellow">
-                <div class="inner">
-                    <h3>{{ pendingCredits|default }}</h3>
-                    <p>Creditos Pendientes</p>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-warning"></i>
-                </div>
-                <a href="#" class="small-box-footer"></a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-xs-6">
-            <div class="small-box bg-red">
-                <div class="inner">
-                    <h3>{{ expiredCredits|default }}</h3>
-                    <p>Creditos Vencidos</p>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-close"></i>
-                </div>
-                <a href="#" class="small-box-footer"></a>
-            </div>
-        </div>
-    </div>
-
     <div class="row">
         <div class="col-md-12">
             <div class="box">
@@ -76,7 +25,7 @@
                             <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Estado crediticio</a></li>
                             <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Volumen crediticio</a>
                             </li>
-                            <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">Creditos
+                            <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">Créditos
                                     concedidos</a></li>
                         </ul>
                         <div class="tab-content">
@@ -109,7 +58,7 @@
             ],
             datasets: [
                 {
-                    label: 'Creditos Concedidos',
+                    label: 'Créditos Concedidos',
                     backgroundColor: '#36A2EB',
                     borderColor: '#36A2EB',
                     data: [
@@ -161,9 +110,9 @@
                 ]
             }],
             labels: [
-                'Creditos pagados',
-                'Creditos pendientes',
-                'Creditos vencidos'
+                'Créditos pagados',
+                'Créditos pendientes',
+                'Créditos vencidos'
             ]
         };
 
