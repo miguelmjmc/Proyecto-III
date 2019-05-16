@@ -163,6 +163,15 @@ class Credit
         return false;
     }
 
+    public function isPending()
+    {
+        if ($this->getTotalPaid() != $this->getAmount()) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function isExpired()
     {
         if ($this->isPaid()) {

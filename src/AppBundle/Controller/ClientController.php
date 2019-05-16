@@ -303,6 +303,7 @@ class ClientController extends Controller
             'suffix' => 'crédito',
             'action' => $this->generateUrl('client_manage_modal', array('id' => $client->getId(), 'credit_id' => $credit_id)),
             'method' => $request->getMethod(),
+            'flash' => $client->getFlash(),
         );
 
         return $this->render('@App/base/modal.html.twig', $parameters);

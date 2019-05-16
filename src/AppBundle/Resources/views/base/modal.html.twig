@@ -32,6 +32,7 @@
         {{ form_start(form, {'action': action, 'method': method }) }}
         <div class="modal-body">
             <div class="modal-container">
+                {{ flash|default|raw }}
                 {{ form_widget(form) }}
             </div>
             <div class="loader"></div>

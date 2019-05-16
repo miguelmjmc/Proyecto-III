@@ -122,11 +122,13 @@ class Client
         $this->credit = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public function getFullName(){
+    public function getFullName()
+    {
         return $this->name.' '.$this->lastName;
     }
 
-    public function getStatus(){
+    public function getStatus()
+    {
 
         $pendingCredits = 0;
         $expiredCredits = 0;
@@ -136,7 +138,7 @@ class Client
         foreach ($this->credit as $credit) {
             if ($credit->isPaid()) {
 
-                if ($credit->isDelayedPayment()){
+                if ($credit->isDelayedPayment()) {
                     $issues++;
                 }
 
@@ -166,6 +168,94 @@ class Client
         }
 
         return $status;
+    }
+
+    public function getFlash()
+    {
+        $flash = '';
+
+        if (0 < $this->countExpiredCredit()) {
+            $flash .= '<div class="alert alert-danger alert-dismissible" role="alert"><i class="icon fa fa-ban"></i> El cliente posee créditos vencidos</div>';
+        } elseif (0 < $this->countPendingCredit()) {
+            $flash .= '<div class="alert alert-warning alert-dismissible" role="alert"><i class="icon fa fa-warning"></i> El cliente posee créditos pendientes</div>';
+        }
+
+        if ($this->totalToPaid() < $this->getCreditLimit() && $this->totalToPaid() >= ($this->getCreditLimit() - ($this->getCreditLimit() / 4)) ) {
+            $flash .= '<div class="alert alert-info alert-dismissible" role="alert"><i class="icon fa fa-info"></i> El cliente se encuentra cerca de su límite de crédito</div>';
+        } elseif ($this->totalToPaid() == $this->getCreditLimit()) {
+            $flash .= '<div class="alert alert-warning alert-dismissible" role="alert"><i class="icon fa fa-warning"></i> El cliente  ha alcanzado su límite de crédito</div>';
+        } elseif ($this->totalToPaid() > $this->getCreditLimit()) {
+            $flash .= '<div class="alert alert-warning alert-dismissible" role="alert"><i class="icon fa fa-warning"></i> El cliente ha superado su límite de credito</div>';
+        }
+
+        return $flash;
+    }
+
+    public function countTotalCredit()
+    {
+        return $this->credit->count();
+    }
+
+    public function countPaidCredit()
+    {
+        $total = 0;
+
+        /** @var Credit $credit */
+        foreach ($this->credit as $credit) {
+            if ($credit->isPaid()) {
+                $total++;
+            }
+        }
+
+        return $total;
+    }
+
+    public function countPendingCredit() {
+        $total = 0;
+
+        /** @var Credit $credit */
+        foreach ($this->credit as $credit) {
+            if ($credit->isPending()) {
+                $total++;
+            }
+        }
+
+        return $total;
+    }
+
+    public function countExpiredCredit() {
+        $total = 0;
+
+        /** @var Credit $credit */
+        foreach ($this->credit as $credit) {
+            if ($credit->isExpired()) {
+                $total++;
+            }
+        }
+
+        return $total;
+    }
+
+    public function totalPaid() {
+        $total = 0;
+
+        /** @var Credit $credit */
+        foreach ($this->credit as $credit) {
+            $total = $credit->getTotalPaid();
+        }
+
+        return $total;
+    }
+
+    public function totalToPaid() {
+        $total = 0;
+
+        /** @var Credit $credit */
+        foreach ($this->credit as $credit) {
+            $total = $credit->getTotalToPay();
+        }
+
+        return $total;
     }
 
     /**
